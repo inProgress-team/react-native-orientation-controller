@@ -1,8 +1,7 @@
 //
 //  RCTOrientationListener.h
 //
-//  Created by inProgress on 9/10/15.
-//  Copyright (c) 2015 Facebook. All rights reserved.
+//  Created by Julien Sierra on 29/10/15.
 //
 
 #import <Foundation/Foundation.h>

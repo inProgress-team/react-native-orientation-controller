@@ -6,21 +6,33 @@ var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
 var {NativeModules} = React;
 
 module.exports = {
-  rotate: function (callback) {
-    console.log(NativeModules.OrientationController);
+  rotate: function (rotation) {
+    NativeModules.OrientationController.rotate(rotation);
   },
-  getOrientation: function(callback) {
-    console.log(NativeModules.OrientationListener);
-    NativeModules.OrientationListener.getOrientation(callback);
+  getDeviceOrientation: function(callback) {
+    NativeModules.OrientationController.getDeviceOrientation(callback);
   },
-  addListener: function(callback) {
+  getApplicationOrientation: function(callback) {
+    NativeModules.OrientationController.getApplicationOrientation(callback);
+  },
+  addApplicationListener: function(callback) {
     return RCTDeviceEventEmitter.addListener(
-      'orientationDidChange', callback
+      'applicationOrientationDidChange', callback
     );
   },
-  removeListener: function(listener) {
+  removeApplicationListener: function(listener) {
     RCTDeviceEventEmitter.removeListener(
-      'orientationDidChange', listener
+      'applicationOrientationDidChange', listener
+    );
+   },
+  addDeviceListener: function(callback) {
+    return RCTDeviceEventEmitter.addListener(
+      'deviceOrientationDidChange', callback
+    );
+  },
+  removeDeviceListener: function(listener) {
+    RCTDeviceEventEmitter.removeListener(
+      'deviceOrientationDidChange', listener
     );
   }
 }

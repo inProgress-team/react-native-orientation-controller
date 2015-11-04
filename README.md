@@ -1,57 +1,42 @@
-## react-native-orientation-listener
+## react-native-orientation-controller
 
-> A react-native library for obtaining current device orientation
+> A react-native library for obtaining and controlling current device or application orientation
+
+This library is a fork of `this library <https://github.com/walmartreact/react-native-orientation-listener>`.
 
 ###Getting Started
 
-- Run `npm install --save react-native-orientation-listener`
+- Run `npm install --save react-native-orientation-controller`
 
 ###IOS
 
 - Open your Xcode project, and select your project in the Project Navigator tab
 - Right click the `Libraries` folder and select "Add files to [your project]"
-- Add `RCTOrientationListener.xcodeproj` from your `node_modules` folder
+- Add `RCTOrientationController.xcodeproj` from your `node_modules` folder
 - Click your main project icon back in the Project Navigator to bring up preferences, and go to the `Build Phases` tab.
 - Click the `+` button underneath `Link Binary With Libraries` section.
-- Add `libRCTOrientationListener.a`
+- Add `libRCTOrientationController.a`
 
 ###Android
-- Open `/android/settings.gradle`
-- Replace `include ':app'` with:
 
-```
-include ':com.walmartreact.ReactOrientationListener', ':app'
-project(':com.walmartreact.ReactOrientationListener').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-orientation-listener/android')
-```
-- Open `android/app/build.gradle`
-- Add the following under `dependencies`:
+###NOT YET IMPLEMENTED !!!
 
-```
-compile project(':com.walmartreact.ReactOrientationListener')
-```
-- Open your `MainActivity.java` file under `android/src`
-- Import the lib using `import com.walmartreact.ReactOrientationListener.*;`
-- Add the following after `.addPackage(new MainReactPackage())`:
-
-```
-.addPackage(new ReactOrientationListener())
-```
 
 ###Usage
 
 Import the library:
 
 ```javascript
-var Orientation = require('react-native-orientation-listener');
+var Orientation = require('react-native-orientation-controller');
 ```
 
-####getOrientation(callback)
+####getDeviceOrientation(callback)
 
-This method will return the current orientation and device string in the form of a callback:
+This method will return the current orientation of the device and device string in the form of a callback:
 
 ```javascript
 componentDidMount(){
-  Orientation.getOrientation(
+  Orientation.getDeviceOrientation(
     (orientation, device) => {
       console.log(orientation, device);
     }
@@ -59,9 +44,23 @@ componentDidMount(){
 }
 ```
 
-####addListener(callback)
+####getApplicationOrientation(callback)
 
-This method will add a listener that will call the callback anytime the device orienatation changes:
+This method will return the current orientation of the application and device string in the form of a callback:
+
+```javascript
+componentDidMount(){
+Orientation.getApplicationOrientation(
+(orientation, device) => {
+console.log(orientation, device);
+}
+);
+}
+```
+
+####addDeviceListener(callback)
+
+This method will add a listener that will call the callback anytime the device orientation changes:
 
 ```javascript
 _setOrientation(data) {
@@ -71,16 +70,42 @@ _setOrientation(data) {
   });
 },
 componentDidMount(){
-  Orientation.addListener(this._setOrientation);
+  Orientation.addDeviceListener(this._setOrientation);
 }
 ```
 
-####removeListener(callback)
+####removeDeviceListener(callback)
 
 This method removes the listener you added in componentDidMount:
 
 ```javascript
 componentWillUnmount() {
-  Orientation.removeListener(this._setOrientation);
+  Orientation.removeDeviceListener(this._setOrientation);
+}
+```
+
+####addApplicationListener(callback)
+
+This method will add a listener that will call the callback anytime the application orientation changes:
+
+```javascript
+_setOrientation(data) {
+this.setState({
+orientation: evt.orientation,
+device: evt.device
+});
+},
+componentDidMount(){
+Orientation.addApplicationListener(this._setOrientation);
+}
+```
+
+####removeApplicationListener(callback)
+
+This method removes the listener you added in componentDidMount:
+
+```javascript
+componentWillUnmount() {
+Orientation.removeApplicationListener(this._setOrientation);
 }
 ```
