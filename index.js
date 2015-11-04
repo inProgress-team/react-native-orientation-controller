@@ -6,7 +6,11 @@ var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
 var {NativeModules} = React;
 
 module.exports = {
+  rotate: function (callback) {
+    console.log(NativeModules.OrientationController);
+  },
   getOrientation: function(callback) {
+    console.log(NativeModules.OrientationListener);
     NativeModules.OrientationListener.getOrientation(callback);
   },
   addListener: function(callback) {
