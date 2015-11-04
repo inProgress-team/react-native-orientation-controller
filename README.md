@@ -2,7 +2,7 @@
 
 > A react-native library for obtaining and controlling current device or application orientation
 
-This library is a fork of `this library <https://github.com/walmartreact/react-native-orientation-listener>`.
+This library is a fork of [this library by Ken Wheeler](https://github.com/walmartreact/react-native-orientation-listener). We thank him.
 
 ###Getting Started
 
