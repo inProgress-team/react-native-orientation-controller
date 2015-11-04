@@ -50,11 +50,11 @@ This method will return the current orientation of the application and device st
 
 ```javascript
 componentDidMount(){
-Orientation.getApplicationOrientation(
-(orientation, device) => {
-console.log(orientation, device);
-}
-);
+  Orientation.getApplicationOrientation(
+    (orientation, device) => {
+      console.log(orientation, device);
+    }
+  );
 }
 ```
 
@@ -90,10 +90,10 @@ This method will add a listener that will call the callback anytime the applicat
 
 ```javascript
 _setOrientation(data) {
-this.setState({
-orientation: evt.orientation,
-device: evt.device
-});
+  this.setState({
+    orientation: evt.orientation,
+    device: evt.device
+  });
 },
 componentDidMount(){
 Orientation.addApplicationListener(this._setOrientation);
@@ -106,6 +106,6 @@ This method removes the listener you added in componentDidMount:
 
 ```javascript
 componentWillUnmount() {
-Orientation.removeApplicationListener(this._setOrientation);
+  Orientation.removeApplicationListener(this._setOrientation);
 }
 ```
