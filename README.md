@@ -19,8 +19,26 @@ This library is a fork of [this library by Ken Wheeler](https://github.com/walma
 
 ###Android
 
-###NOT YET IMPLEMENTED !!!
+- Open `/android/settings.gradle`
+- Add the following under `include ':app'`:
 
+```
+include ':com.inprogress.ReactOrientationController'
+project(':com.inprogress.ReactOrientationController').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-orientation-controller/android')
+```
+- Open `android/app/build.gradle`
+- Add the following under `dependencies`:
+
+```
+compile project(':com.inprogress.ReactOrientationController')
+```
+- Open your `MainActivity.java` file under `android/src`
+- Import the lib using `import com.inprogress.ReactOrientationController.ReactOrientationController;`
+- Add the following after `.addPackage(new MainReactPackage())`:
+
+```
+.addPackage(new ReactOrientationController(this))
+```
 
 ###Usage
 
@@ -28,6 +46,16 @@ Import the library:
 
 ```javascript
 var Orientation = require('react-native-orientation-controller');
+```
+
+####rotate(orientation)
+
+This method will change the current orientation of the device of 90° for parameter=1, 180° for parameter=2, 270° for parameter=3 :
+
+```javascript
+componentDidMount(){
+  Orientation.rotate(parameter);
+}
 ```
 
 ####getDeviceOrientation(callback)
