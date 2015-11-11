@@ -4,9 +4,21 @@ var React = require('react-native');
 
 var { NativeModules, RCTDeviceEventEmitter } = React;
 
+var getRotation = function (rotation) {
+  if(rotation == 1) {
+    rotation = 90;
+  } else if (rotation == 2) {
+    rotation = 180;
+  } else if(rotation == 3) {
+    rotation = 270;
+  }
+  return rotation;
+};
+
+
 module.exports = {
   rotate: function (rotation) {
-    NativeModules.OrientationController.rotate(rotation);
+    NativeModules.OrientationController.rotate(getRotation(rotation));
   },
   getDeviceOrientation: function(callback) {
     NativeModules.OrientationController.getDeviceOrientation(callback);
