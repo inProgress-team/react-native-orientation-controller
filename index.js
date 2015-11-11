@@ -1,9 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
 
-var {NativeModules} = React;
+var { NativeModules, RCTDeviceEventEmitter } = React;
 
 module.exports = {
   rotate: function (rotation) {
