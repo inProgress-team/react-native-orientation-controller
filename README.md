@@ -65,8 +65,8 @@ This method will return the current orientation of the device and device string 
 ```javascript
 componentDidMount(){
   Orientation.getDeviceOrientation(
-    (orientation, device) => {
-      console.log(orientation, device);
+    (orientation, device, size) => {
+      console.log(orientation, device, size);
     }
   );
 }
@@ -79,8 +79,8 @@ This method will return the current orientation of the application and device st
 ```javascript
 componentDidMount(){
   Orientation.getApplicationOrientation(
-    (orientation, device) => {
-      console.log(orientation, device);
+    (orientation, device, size) => {
+      console.log(orientation, device, size);
     }
   );
 }
@@ -91,11 +91,8 @@ componentDidMount(){
 This method will add a listener that will call the callback anytime the device orientation changes:
 
 ```javascript
-_setOrientation(data) {
-  this.setState({
-    orientation: evt.orientation,
-    device: evt.device
-  });
+_setOrientation(orientation, device, size) {
+   console.log(orientation, device, size);
 },
 componentDidMount(){
   Orientation.addDeviceListener(this._setOrientation);
@@ -117,11 +114,8 @@ componentWillUnmount() {
 This method will add a listener that will call the callback anytime the application orientation changes:
 
 ```javascript
-_setOrientation(data) {
-  this.setState({
-    orientation: evt.orientation,
-    device: evt.device
-  });
+_setOrientation(orientation, device, size) {
+   console.log(orientation, device, size);
 },
 componentDidMount(){
 Orientation.addApplicationListener(this._setOrientation);

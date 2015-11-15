@@ -27,11 +27,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)deviceOrientationDidChange:(NSNotification *)notification
+- (NSString*) getOrientationStr: (int) orientationNumber
 {
-    int orientation = [self getDeviceOrientationAsNumber];
     NSString *orientationStr;
-    switch (orientation) {
+    switch (orientationNumber) {
         case 0:
             orientationStr = @"PORTRAIT";
             break;
@@ -48,41 +47,29 @@
             orientationStr = @"UNKNOWN";
             break;
     }
+    return orientationStr;
+}
+
+- (void)deviceOrientationDidChange:(NSNotification *)notification
+{
+    int orientation = [self getDeviceOrientationAsNumber];
     
     UIDevice *currentDevice = [UIDevice currentDevice];
     NSString *deviceStr = [currentDevice model];
     
     [_bridge.eventDispatcher sendDeviceEventWithName:@"deviceOrientationDidChange"
-                                                body:@{@"orientation": orientationStr,@"device": deviceStr}];
+                                                body:@[[self getOrientationStr : orientation], deviceStr, [self getDimensions]]];
 }
 
 - (void)applicationOrientationDidChange:(NSNotification *)notification
 {
     int orientation = [self getApplicationOrientationAsNumber];
-    NSString *orientationStr;
-    switch (orientation) {
-        case 0:
-            orientationStr = @"PORTRAIT";
-            break;
-        case 1:
-            orientationStr = @"LANDSCAPE LEFT";
-            break;
-        case 2:
-            orientationStr = @"PORTRAIT UPSIDE DOWN";
-            break;
-        case 3:
-            orientationStr = @"LANDSCAPE RIGHT";
-            break;
-        default:
-            orientationStr = @"UNKNOWN";
-            break;
-    }
     
     UIDevice *currentDevice = [UIDevice currentDevice];
     NSString *deviceStr = [currentDevice model];
     
     [_bridge.eventDispatcher sendDeviceEventWithName:@"applicationOrientationDidChange"
-                                                body:@{@"orientation": orientationStr,@"device": deviceStr}];
+                                                body:@[[self getOrientationStr : orientation], deviceStr, [self getDimensions]]];
 }
 
 RCT_EXPORT_MODULE();
@@ -91,29 +78,11 @@ RCT_EXPORT_METHOD(getDeviceOrientation:(RCTResponseSenderBlock)callback)
 {
     
     int orientation = [self getDeviceOrientationAsNumber];
-    NSString *orientationStr;
-    switch (orientation) {
-        case 0:
-            orientationStr = @"PORTRAIT";
-            break;
-        case 1:
-            orientationStr = @"LANDSCAPE LEFT";
-            break;
-        case 2:
-            orientationStr = @"PORTRAIT UPSIDE DOWN";
-            break;
-        case 3:
-            orientationStr = @"LANDSCAPE RIGHT";
-            break;
-        default:
-            orientationStr = @"UNKNOWN";
-            break;
-    }
     
     UIDevice *currentDevice = [UIDevice currentDevice];
     NSString *deviceStr = [currentDevice model];
     
-    NSArray *orientationArray = @[orientationStr, deviceStr];
+    NSArray *orientationArray = @[[self getOrientationStr : orientation], deviceStr, [self getDimensions]];
     callback(orientationArray);
 }
 
@@ -121,30 +90,21 @@ RCT_EXPORT_METHOD(getApplicationOrientation:(RCTResponseSenderBlock)callback)
 {
     
     int orientation = [self getApplicationOrientationAsNumber];
-    NSString *orientationStr;
-    switch (orientation) {
-        case 0:
-            orientationStr = @"PORTRAIT";
-            break;
-        case 1:
-            orientationStr = @"LANDSCAPE LEFT";
-            break;
-        case 2:
-            orientationStr = @"PORTRAIT UPSIDE DOWN";
-            break;
-        case 3:
-            orientationStr = @"LANDSCAPE RIGHT";
-            break;
-        default:
-            orientationStr = @"UNKNOWN";
-            break;
-    }
     
     UIDevice *currentDevice = [UIDevice currentDevice];
     NSString *deviceStr = [currentDevice model];
     
-    NSArray *orientationArray = @[orientationStr, deviceStr];
+    NSArray *orientationArray = @[[self getOrientationStr : orientation], deviceStr, [self getDimensions]];
     callback(orientationArray);
+}
+
+-(NSDictionary*) getDimensions {
+    CGRect sizeRect = [UIScreen mainScreen].applicationFrame;
+    NSArray *keys = [NSArray arrayWithObjects:@"width", @"height", nil];
+    NSArray *objects = [NSArray arrayWithObjects:[NSNumber numberWithFloat:sizeRect.size.width], [NSNumber numberWithFloat:sizeRect.size.height], nil];
+    NSDictionary *size = [NSDictionary dictionaryWithObjects:objects
+                                                     forKeys:keys];
+    return size;
 }
 
 

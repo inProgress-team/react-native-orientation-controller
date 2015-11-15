@@ -29,7 +29,9 @@ module.exports = {
   },
   addApplicationListener: function(callback) {
     return DeviceEventEmitter.addListener(
-      'applicationOrientationDidChange', callback
+      'applicationOrientationDidChange', function () {
+        callback.apply(this, arguments[0])
+      }
     );
   },
   removeApplicationListener: function(listener) {
@@ -39,7 +41,9 @@ module.exports = {
    },
   addDeviceListener: function(callback) {
     return DeviceEventEmitter.addListener(
-      'deviceOrientationDidChange', callback
+      'deviceOrientationDidChange', function () {
+        callback.apply(this, arguments[0])
+      }
     );
   },
   removeDeviceListener: function(listener) {
