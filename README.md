@@ -11,7 +11,7 @@ This library is a fork of [this library by Ken Wheeler](https://github.com/walma
 ### Install with RNPM
 
 - `npm install -g rnpm`
-- `rnpm link`
+- `rnpm link react-native-orientation-controller`
 
 
 ###Usage
