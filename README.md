@@ -8,16 +8,12 @@ This library is a fork of [this library by Ken Wheeler](https://github.com/walma
 
 - Run `npm install --save react-native-orientation-controller`
 
-###IOS
+### Install with RNPM (IOS)
 
-- Open your Xcode project, and select your project in the Project Navigator tab
-- Right click the `Libraries` folder and select "Add files to [your project]"
-- Add `RCTOrientationController.xcodeproj` from your `node_modules` folder
-- Click your main project icon back in the Project Navigator to bring up preferences, and go to the `Build Phases` tab.
-- Click the `+` button underneath `Link Binary With Libraries` section.
-- Add `libRCTOrientationController.a`
+- `npm install -g rnpm`
+- `rnpm link`
 
-###Android
+### Android
 
 - Open `/android/settings.gradle`
 - Add the following under `include ':app'`:
