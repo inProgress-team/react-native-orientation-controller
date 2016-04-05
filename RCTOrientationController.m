@@ -99,7 +99,7 @@ RCT_EXPORT_METHOD(getApplicationOrientation:(RCTResponseSenderBlock)callback)
 }
 
 -(NSDictionary*) getDimensions {
-    CGRect sizeRect = [UIScreen mainScreen].applicationFrame;
+    CGRect sizeRect = [[UIScreen mainScreen] bounds];
     NSArray *keys = [NSArray arrayWithObjects:@"width", @"height", nil];
     NSArray *objects = [NSArray arrayWithObjects:[NSNumber numberWithFloat:sizeRect.size.width], [NSNumber numberWithFloat:sizeRect.size.height], nil];
     NSDictionary *size = [NSDictionary dictionaryWithObjects:objects
