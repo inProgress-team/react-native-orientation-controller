@@ -14,8 +14,8 @@
 - (instancetype)init
 {
     if ((self = [super init])) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationOrientationDidChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 
     }
     return self;
@@ -50,53 +50,30 @@
     return orientationStr;
 }
 
-- (void)deviceOrientationDidChange:(NSNotification *)notification
+- (void)orientationDidChange:(NSNotification *)notification
 {
-    int orientation = [self getDeviceOrientationAsNumber];
-    
-    UIDevice *currentDevice = [UIDevice currentDevice];
-    NSString *deviceStr = [currentDevice model];
-    
-    [_bridge.eventDispatcher sendDeviceEventWithName:@"deviceOrientationDidChange"
-                                                body:@[[self getOrientationStr : orientation], deviceStr, [self getDimensions]]];
+    [_bridge.eventDispatcher sendDeviceEventWithName:@"orientationDidChange" body:[self getData]];
 }
 
-- (void)applicationOrientationDidChange:(NSNotification *)notification
-{
-    int orientation = [self getApplicationOrientationAsNumber];
-    
-    UIDevice *currentDevice = [UIDevice currentDevice];
-    NSString *deviceStr = [currentDevice model];
-    
-    [_bridge.eventDispatcher sendDeviceEventWithName:@"applicationOrientationDidChange"
-                                                body:@[[self getOrientationStr : orientation], deviceStr, [self getDimensions]]];
-}
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(getDeviceOrientation:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(getOrientation:(RCTResponseSenderBlock)callback)
 {
-    
-    int orientation = [self getDeviceOrientationAsNumber];
-    
-    UIDevice *currentDevice = [UIDevice currentDevice];
-    NSString *deviceStr = [currentDevice model];
-    
-    NSArray *orientationArray = @[[self getOrientationStr : orientation], deviceStr, [self getDimensions]];
-    callback(orientationArray);
+    callback([self getData]);
 }
 
-RCT_EXPORT_METHOD(getApplicationOrientation:(RCTResponseSenderBlock)callback)
-{
-    
-    int orientation = [self getApplicationOrientationAsNumber];
+-(NSArray*)getData{
+    int deviceOrientation = [self getDeviceOrientationAsNumber];
+    int applicationOrientation = [self getApplicationOrientationAsNumber];
     
     UIDevice *currentDevice = [UIDevice currentDevice];
     NSString *deviceStr = [currentDevice model];
     
-    NSArray *orientationArray = @[[self getOrientationStr : orientation], deviceStr, [self getDimensions]];
-    callback(orientationArray);
+    NSArray *orientationArray = @[[self getOrientationStr : deviceOrientation], [self getOrientationStr : applicationOrientation], deviceStr, [self getDimensions]];
+    return orientationArray;
 }
+
 
 -(NSDictionary*) getDimensions {
     CGRect sizeRect = [[UIScreen mainScreen] bounds];
