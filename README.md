@@ -32,76 +32,40 @@ componentDidMount(){
 }
 ```
 
-####getDeviceOrientation(callback)
+####getOrientation(callback)
 
-This method will return the current orientation of the device and device string in the form of a callback:
+This method will return the current orientation of the device, the current orientation of the application, the device model and the screen size in the form of a callback:
 
 ```javascript
 componentDidMount(){
-  Orientation.getDeviceOrientation(
-    (orientation, device, size) => {
-      console.log(orientation, device, size);
+  Orientation.getOrientation(
+    (deviceOrientation, applicationOrientation, device, size) => {
+      console.log(deviceOrientation, applicationOrientation, device, size);
     }
   );
 }
 ```
 
-####getApplicationOrientation(callback)
+####addListener(callback)
 
-This method will return the current orientation of the application and device string in the form of a callback:
-
-```javascript
-componentDidMount(){
-  Orientation.getApplicationOrientation(
-    (orientation, device, size) => {
-      console.log(orientation, device, size);
-    }
-  );
-}
-```
-
-####addDeviceListener(callback)
-
-This method will add a listener that will call the callback anytime the device orientation changes:
+This method will add a listener that will call the callback anytime the orientation changes:
 
 ```javascript
-_setOrientation(orientation, device, size) {
-   console.log(orientation, device, size);
+_setOrientation(deviceOrientation, applicationOrientation, device, size) {
+   console.log(deviceOrientation, applicationOrientation, device, size);
 },
 componentDidMount(){
-  Orientation.addDeviceListener(this._setOrientation);
+  Orientation.addListener(this._setOrientation);
 }
 ```
 
-####removeDeviceListener(callback)
+####removeListener(callback)
 
 This method removes the listener you added in componentDidMount:
 
 ```javascript
 componentWillUnmount() {
-  Orientation.removeDeviceListener(this._setOrientation);
+  Orientation.removeListener(this._setOrientation);
 }
 ```
 
-####addApplicationListener(callback)
-
-This method will add a listener that will call the callback anytime the application orientation changes:
-
-```javascript
-_setOrientation(orientation, device, size) {
-   console.log(orientation, device, size);
-},
-componentDidMount(){
-Orientation.addApplicationListener(this._setOrientation);
-}
-```
-
-####removeApplicationListener(callback)
-
-This method removes the listener you added in componentDidMount:
-
-```javascript
-componentWillUnmount() {
-  Orientation.removeApplicationListener(this._setOrientation);
-}
-```
