@@ -21,34 +21,19 @@ module.exports = {
   rotate: function (rotation) {
     NativeModules.OrientationController.rotate(getRotation(rotation));
   },
-  getDeviceOrientation: function(callback) {
-    NativeModules.OrientationController.getDeviceOrientation(callback);
+  getOrientation: function(callback) {
+    NativeModules.OrientationController.getOrientation(callback);
   },
-  getApplicationOrientation: function(callback) {
-    NativeModules.OrientationController.getApplicationOrientation(callback);
-  },
-  addApplicationListener: function(callback) {
+  addListener: function(callback) {
     return DeviceEventEmitter.addListener(
-      'applicationOrientationDidChange', function () {
+      'orientationDidChange', function () {
         callback.apply(this, arguments[0])
       }
     );
   },
-  removeApplicationListener: function(listener) {
+  removeListener: function(listener) {
     DeviceEventEmitter.removeListener(
-      'applicationOrientationDidChange', listener
+      'orientationDidChange', listener
     );
-   },
-  addDeviceListener: function(callback) {
-    return DeviceEventEmitter.addListener(
-      'deviceOrientationDidChange', function () {
-        callback.apply(this, arguments[0])
-      }
-    );
-  },
-  removeDeviceListener: function(listener) {
-    DeviceEventEmitter.removeListener(
-      'deviceOrientationDidChange', listener
-    );
-  }
+   }
 }
