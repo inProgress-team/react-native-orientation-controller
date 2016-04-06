@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.OrientationEventListener;
@@ -17,6 +18,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+
 
 public class ReactOrientationControllerModule extends ReactContextBaseJavaModule {
 
@@ -58,8 +60,7 @@ public class ReactOrientationControllerModule extends ReactContextBaseJavaModule
 
 
     }
-
-
+    
     @Override
     public String getName() {
         return "OrientationController";
@@ -69,14 +70,12 @@ public class ReactOrientationControllerModule extends ReactContextBaseJavaModule
     @ReactMethod
     public void getOrientation(Callback success) {
         WritableNativeMap data = getDataMap();
-        Log.e("DeviceOrientation",data.toString());
         success.invoke(data);
     }
 
 
     @ReactMethod
     public void rotate(int rotation) {
-        Log.e("YES","rotation : "+rotation);
         setApplicationOrientation(rotation);
     }
 
@@ -150,15 +149,55 @@ public class ReactOrientationControllerModule extends ReactContextBaseJavaModule
      */
     private int[] getDimension() {
         final Display display = ((WindowManager) getReactApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int[] dim;
+        int width;
+        int height;
 
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        int[] dim = new int[]{width, height};
-        if(dim.length==2)
+        DisplayMetrics dm = new DisplayMetrics();
+        display.getMetrics(dm);
+        setRealDeviceSizeInPixels();
+        width = (int)(mWidthPixels/dm.density);
+        height = (int)(mHeightPixels/dm.density);
+
+        dim = new int[]{width, height};
+        if (dim.length == 2)
             return dim;
         else return new int[]{-1, -1};
+    }
+
+    double mWidthPixels;
+    double mHeightPixels;
+
+    private void setRealDeviceSizeInPixels() {
+        WindowManager windowManager = ((WindowManager) getReactApplicationContext().getSystemService(Context.WINDOW_SERVICE));
+        Display display = windowManager.getDefaultDisplay();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        display.getMetrics(displayMetrics);
+
+
+        // since SDK_INT = 1;
+        mWidthPixels = displayMetrics.widthPixels;
+        mHeightPixels = displayMetrics.heightPixels;
+
+        // includes window decorations (statusbar bar/menu bar)
+        if (Build.VERSION.SDK_INT >= 14 && Build.VERSION.SDK_INT < 17) {
+            try {
+                mWidthPixels = (Integer) Display.class.getMethod("getRawWidth").invoke(display);
+                mHeightPixels = (Integer) Display.class.getMethod("getRawHeight").invoke(display);
+            } catch (Exception ignored) {
+            }
+        }
+
+        // includes window decorations (statusbar bar/menu bar)
+        if (Build.VERSION.SDK_INT >= 17) {
+            try {
+                Point realSize = new Point();
+                Display.class.getMethod("getRealSize", Point.class).invoke(display, realSize);
+                mWidthPixels = realSize.x;
+                mHeightPixels = realSize.y;
+            } catch (Exception ignored) {
+            }
+        }
     }
 
 
