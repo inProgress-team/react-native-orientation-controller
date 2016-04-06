@@ -14,6 +14,10 @@ This library is a fork of [this library by Ken Wheeler](https://github.com/walma
 - `rnpm link react-native-orientation-controller`
 
 
+### Modify MainActivity.java
+
+Replace `new ReactOrientationController()` by new `ReactOrientationController(this)`
+
 ###Usage
 
 Import the library:
