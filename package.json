@@ -18,5 +18,10 @@
     "url": "https://github.com/inProgress-team/react-native-orientation-controller.git"
   },
   "author": "inProgress team",
-  "license": "MIT"
+  "license": "MIT",
+  "rnpm": {
+    "android": {
+      "packageInstance": "new ReactOrientationController(this)"
+    }
+  }
 }
