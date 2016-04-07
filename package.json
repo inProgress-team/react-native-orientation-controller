@@ -1,6 +1,6 @@
 {
   "name": "react-native-orientation-controller",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A react-native library for obtaining and controlling the current device and application orientation",
   "main": "main.js",
   "keywords": [
@@ -18,5 +18,10 @@
     "url": "https://github.com/inProgress-team/react-native-orientation-controller.git"
   },
   "author": "inProgress team",
-  "license": "MIT"
+  "license": "MIT",
+  "rnpm": {
+  "android": {
+      "packageInstance": "new ReactOrientationController(this)"
+    }
+  }
 }
