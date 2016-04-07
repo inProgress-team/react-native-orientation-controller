@@ -22,7 +22,9 @@ module.exports = {
     NativeModules.OrientationController.rotate(getRotation(rotation));
   },
   getOrientation: function(callback) {
-    NativeModules.OrientationController.getOrientation(callback);
+    NativeModules.OrientationController.getOrientation(()=>{
+      typeof callback == 'function' && callback();
+    });
   },
   addListener: function(callback) {
     return DeviceEventEmitter.addListener(
