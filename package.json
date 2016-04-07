@@ -1,6 +1,6 @@
 {
   "name": "react-native-orientation-controller",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A react-native library for obtaining and controlling the current device and application orientation",
   "main": "main.js",
   "keywords": [
