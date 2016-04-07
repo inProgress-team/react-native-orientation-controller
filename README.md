@@ -12,7 +12,6 @@ This library is a fork of [this library by Ken Wheeler](https://github.com/walma
 
 - `npm install -g rnpm`
 - `rnpm link react-native-orientation-controller`
-- Android : Replace `new ReactOrientationController()` by new `ReactOrientationController(this)`
 
 ###Usage
 
