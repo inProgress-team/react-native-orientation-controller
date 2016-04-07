@@ -22,8 +22,8 @@ module.exports = {
     NativeModules.OrientationController.rotate(getRotation(rotation));
   },
   getOrientation: function(callback) {
-    NativeModules.OrientationController.getOrientation(()=>{
-      typeof callback == 'function' && callback();
+    NativeModules.OrientationController.getOrientation((orientation, application, deviceType, size)=>{
+      typeof callback == 'function' && callback(orientation, application, deviceType, size);
     });
   },
   addListener: function(callback) {
