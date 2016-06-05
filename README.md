@@ -54,7 +54,7 @@ _setOrientation(deviceOrientation, applicationOrientation, device, size) {
    console.log(deviceOrientation, applicationOrientation, device, size);
 },
 componentDidMount(){
-  Orientation.addListener(this._setOrientation);
+  this.orientationListener = Orientation.addListener(this._setOrientation);
 }
 ```
 
@@ -64,7 +64,7 @@ This method removes the listener you added in componentDidMount:
 
 ```javascript
 componentWillUnmount() {
-  Orientation.removeListener(this._setOrientation);
+  this.orientationListener.remove(); 
 }
 ```
 
