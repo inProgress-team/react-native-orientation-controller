@@ -13,7 +13,48 @@ This library is a fork of [this library by Ken Wheeler](https://github.com/walma
 - `npm install -g rnpm`
 - `rnpm link react-native-orientation-controller`
 
-###Usage
+### Or Manual Installation
+
+#### Android
+
+Add to `android/settings.gradle`:
+
+```
+include ':react-native-orientation-controller'
+project(':react-native-orientation-controller').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-orientation-controller/android')
+```
+
+Add the compile project line to `android/app/build.gradle` (inside `dependencies`):
+
+```
+dependencies {
+    // ... other content ... 
+    compile project(':react-native-orientation-controller')
+}
+```
+
+Inside `MainActivity.java` (normally somewhere here `android/app/src/main/java/com/<your-app-name>/MainActivity.java`)
+add `import com.inprogress.ReactOrientationController.ReactOrientationController;` and ` new ReactOrientationController(this)`
+like in the example below
+
+```
+import com.inprogress.ReactOrientationController.ReactOrientationController; // <<< ADD THIS
+
+/* ... other content ... */
+
+    @Override
+    protected List<ReactPackage> getPackages() {
+        return Arrays.<ReactPackage>asList(
+            new MainReactPackage(),
+            new ReactOrientationController(this) // <<< AND THIS
+            /* ... other packages can be here ... */
+        );
+    }
+
+```
+
+
+### Usage
 
 Import the library:
 
